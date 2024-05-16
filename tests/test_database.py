@@ -8,7 +8,7 @@ def test_fields(_app):
     fields = [column.name for column in inspector.columns]
     print(fields)
     assert (
-        all(field in fields for field 
+        all(field in fields for field
             in ['id', 'original', 'short', 'timestamp'])
     ), (
         'В модели не найдены все необходимые поля. '
