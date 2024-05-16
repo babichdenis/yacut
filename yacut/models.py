@@ -1,5 +1,3 @@
-from typing import Any
-
 import random
 import re
 from datetime import datetime
