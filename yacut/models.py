@@ -5,11 +5,10 @@ from flask import url_for, abort
 
 from yacut import db
 from .const import (
-    ORIGINAL_LENGTH, LEN_OF_SHORT,
+    ORIGINAL_LENGTH, TOO_LONG_ORIGINAL,
     SHORT_LENGTH, REGEX_FOR_SHORT,
-    PATTERN_FOR_SHORT, REDIRECT_VIEW,
-    ITERATIONS, WRONG_SHORT,
-    SHORT_EXISTS, TOO_LONG_ORIGINAL
+    REDIRECT_VIEW, WRONG_SHORT,
+    SHORT_EXISTS
 )
 from .utils import get_unique_short
 
@@ -57,12 +56,7 @@ class URLMap(db.Model):
 
     @staticmethod
     def get_unique_short():
-        return get_unique_short(
-            iterations=ITERATIONS,
-            pattern_for_short=PATTERN_FOR_SHORT,
-            len_of_short=LEN_OF_SHORT,
-            get_function=URLMap.get
-        )
+        return get_unique_short(get_function=URLMap.get)
 
     @staticmethod
     def get(short: str, or_404=False):

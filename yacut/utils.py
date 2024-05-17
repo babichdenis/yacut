@@ -1,14 +1,13 @@
 import random
-from .const import ID_ERROR_MESSAGE
+from .const import (
+    ID_ERROR_MESSAGE, ITERATIONS,
+    PATTERN_FOR_SHORT, LEN_OF_SHORT
+)
 
 
-def get_unique_short(
-        iterations: int,
-        pattern_for_short: str,
-        len_of_short: int,
-        get_function) -> str:
-    for _ in range(iterations):
-        short = ''.join(random.choices(pattern_for_short, k=len_of_short))
+def get_unique_short(get_function) -> str:
+    for _ in range(ITERATIONS):
+        short = ''.join(random.choices(PATTERN_FOR_SHORT, k=LEN_OF_SHORT))
         if get_function(short) is None:
             return short
     raise RuntimeError(ID_ERROR_MESSAGE)
