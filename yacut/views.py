@@ -1,8 +1,9 @@
-from flask import flash, redirect, render_template, url_for
 from . import app
 from .const import REDIRECT_VIEW
 from .forms import URLMapForm
 from .models import URLMap
+
+from flask import flash, redirect, render_template, url_for
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -28,10 +29,7 @@ def index_view() -> str:
         flash(error)
         return render_template('index.html', form=form)
 
-# Определение маршрута для перенаправления по короткой ссылке
-
 
 @app.route('/<string:short>')
 def redirect_view(short: str):
-    # Перенаправление на оригинальную ссылку
-    return redirect(URLMap.get_or_404(short).original)
+    return redirect(URLMap.get(short, or_404=True).original)

@@ -1,18 +1,17 @@
-import random
-import re
 from datetime import datetime
+import re
 
-from flask import url_for
+from flask import url_for, abort
 
 from yacut import db
 from .const import (
     ORIGINAL_LENGTH, LEN_OF_SHORT,
     SHORT_LENGTH, REGEX_FOR_SHORT,
     PATTERN_FOR_SHORT, REDIRECT_VIEW,
-    ID_ERROR_MESSAGE, ITERATIONS,
-    WRONG_SHORT, SHORT_EXISTS,
-    TOO_LONG_ORIGINAL
+    ITERATIONS, WRONG_SHORT,
+    SHORT_EXISTS, TOO_LONG_ORIGINAL
 )
+from .utils import get_unique_short
 
 
 class URLMap(db.Model):
@@ -57,17 +56,17 @@ class URLMap(db.Model):
         return url
 
     @staticmethod
-    def get_unique_short() -> str:
-        for _ in range(ITERATIONS):
-            short = ''.join(random.choices(PATTERN_FOR_SHORT, k=LEN_OF_SHORT))
-            if URLMap.get(short) is None:
-                return short
-        raise RuntimeError(ID_ERROR_MESSAGE)
+    def get_unique_short():
+        return get_unique_short(
+            iterations=ITERATIONS,
+            pattern_for_short=PATTERN_FOR_SHORT,
+            len_of_short=LEN_OF_SHORT,
+            get_function=URLMap.get
+        )
 
     @staticmethod
-    def get(short: str):
-        return URLMap.query.filter_by(short=short).first()
-
-    @staticmethod
-    def get_or_404(short: str):
-        return URLMap.query.filter_by(short=short).first_or_404()
+    def get(short: str, or_404=False):
+        url = URLMap.query.filter_by(short=short).first()
+        if not url and or_404:
+            abort(404)
+        return url
