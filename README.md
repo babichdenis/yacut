@@ -87,5 +87,6 @@ flask run
 
 ---
 
+<h5 align="center">
 Автор проекта: <a href="https://github.com/babichdenis">babichdenis</a>
 </h5>
