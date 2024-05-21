@@ -2,6 +2,7 @@ from . import app
 from .const import REDIRECT_VIEW
 from .forms import URLMapForm
 from .models import URLMap
+from sqlalchemy.orm.exc import NoResultFound  # Импорт исключения
 
 from flask import flash, redirect, render_template, url_for
 
@@ -32,4 +33,9 @@ def index_view() -> str:
 
 @app.route('/<string:short>')
 def redirect_view(short: str):
-    return redirect(URLMap.get(short, or_404=True).original)
+    try:
+        url_map = URLMap.get(short, or_404=True)
+        return redirect(url_map.original)
+    except NoResultFound:
+        flash("URL not found")
+        return redirect(url_for('index_view'))

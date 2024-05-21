@@ -1,4 +1,5 @@
 import random
+
 from .const import (
     ID_ERROR_MESSAGE, ITERATIONS,
     PATTERN_FOR_SHORT, LEN_OF_SHORT

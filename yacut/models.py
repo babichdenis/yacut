@@ -22,14 +22,14 @@ class URLMap(db.Model):
         db.DateTime, index=True, default=datetime.utcnow)
 
     def to_dict(self) -> dict:
-        return dict(
-            url=self.original,
-            short_link=url_for(
+        return {
+            'url': self.original,
+            'short_link': url_for(
                 REDIRECT_VIEW,
                 short=self.short,
                 _external=True
             )
-        )
+        }
 
     @staticmethod
     def create(original: str, short: str, validate: bool = False):
