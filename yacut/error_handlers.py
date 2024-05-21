@@ -38,4 +38,5 @@ def handle_internal_server_error(error):
 # Обработка ошибки по умолчанию
 @app.errorhandler(Exception)
 def handle_default_error(error):
-    return jsonify({'error': 'Internal Server Error'}), HTTPStatus.INTERNAL_SERVER_ERROR
+    return jsonify(
+        {'error': 'Internal Server Error'}), HTTPStatus.INTERNAL_SERVER_ERROR
